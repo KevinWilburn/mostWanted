@@ -86,7 +86,7 @@ function displayPerson(person){
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
-
+//
 // function that prompts and validates user input
 function promptFor(question, valid){
   do{
