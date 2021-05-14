@@ -67,27 +67,32 @@ function searchByName(people){
       return false;
     }
   })
-  // TODO: find the person using the name they entered
-  return foundPerson;
+  if(!foundPerson){
+    alert("Could not find that individual.");
+    return app(people); // restart
+  }
+  else{ 
+    return foundPerson[0];
+  }
 }
 
-function searchByTrait(people){
-  let gender = promptFor("What is the person's gender?", chars);
-  let height = promptFor("What is the person's height?", chars);
-  let weight = promptFor("What is the person's weight?", chars);
-  let eyeColor = promptFor("What is the person's eye color?", chars);
-  let occupation = promptFor("What is the person's occupation?", chars);
+// function searchByTrait (people) {
+//   let filteredList;
 
-  let foundTrait = people.filter(function(person){
-    if(person.gender === gender || person.height === height || person.weight === weight || person.eyeColor === eyeColor || person.occupation === occupation){
-      return true;
-    }
-    else{
-      return false;
-    }
-  })
-  return foundTrait;
-}
+//   filteredList = searchByGender(people);
+//   filteredList = searchByDob(people);
+//   filteredList = 
+// }
+
+// function searchByGender(people) {
+//   let genderSearch = promptFor("Do you want to search by gender? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  
+//   switch (genderSearch) {
+//     let locateGender = 
+//     case "yes":
+  
+//   }
+// }
 
 // alerts a list of people
 function displayPeople(people){
