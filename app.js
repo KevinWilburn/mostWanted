@@ -76,17 +76,23 @@ function searchByName(people){
   }
 }
 //////////////////////
-function searchByTrait (people) {
-  let gender = promptFor("What is the person's first name?", chars);
-  let height = promptFor("What is the person's last name?", chars);
-  let weight= promptFor("What is the person's last name?", chars);
-  let dateOfBirth= promptFor("What is the person's last name?", chars);
-  let eyecolor= promptFor("What is the person's last name?", chars);
+// function searchByTrait (people) {
+//   let gender = promptFor("What is the person's first name?", chars);
+//   let height = promptFor("What is the person's last name?", chars);
+//   let weight= promptFor("What is the person's last name?", chars);
+//   let dateOfBirth= promptFor("What is the person's last name?", chars);
+//   let eyecolor= promptFor("What is the person's last name?", chars);
 
-
+function searchByTrait(people){
+  let completedQuery = [];
+  let gender = promptFor("What is the person's gender?", chars);
+  // let dob = promptFor("What is the person's date of birth?", chars);
+  // let weight = promptFor("What is the person's weight?", chars);
+  // let height = promptFor("What is the person's height?", chars);
+  // let eyeColor = promptFor("What is the person's eye color?", chars);
 
   let foundTrait = people.filter(function(person){
-    if(person.gender === gender || person.height === height || person.weight === weight || person.dob === dateOfBirth || person.eyecolor === eyecolor){
+    if(person.gender === gender){
       return true;
     }
     else{
@@ -94,13 +100,14 @@ function searchByTrait (people) {
     }
   })
   if(!foundTrait){
-    alert("Could not find that trait.");
+    alert("Could not find that individual.");
     return app(people); // restart
   }
   else{ 
-    return foundTrait[0];
+    return foundTrait;
   }
 }
+
 
 // }
 ////////////////////////
