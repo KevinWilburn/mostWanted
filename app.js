@@ -76,23 +76,31 @@ function searchByName(people){
   }
 }
 
-// function searchByTrait (people) {
-//   let filteredList;
+function searchByTrait(people){
+  let completedQuery = [];
+  let gender = promptFor("What is the person's gender?", chars);
+  // let dob = promptFor("What is the person's date of birth?", chars);
+  // let weight = promptFor("What is the person's weight?", chars);
+  // let height = promptFor("What is the person's height?", chars);
+  // let eyeColor = promptFor("What is the person's eye color?", chars);
 
-//   filteredList = searchByGender(people);
-//   filteredList = searchByDob(people);
-//   filteredList = 
-// }
+  let foundTrait = people.filter(function(person){
+    if(person.gender === gender){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  if(!foundTrait){
+    alert("Could not find that individual.");
+    return app(people); // restart
+  }
+  else{ 
+    return foundTrait;
+  }
+}
 
-// function searchByGender(people) {
-//   let genderSearch = promptFor("Do you want to search by gender? Enter 'yes' or 'no'", yesNo).toLowerCase();
-  
-//   switch (genderSearch) {
-//     let locateGender = 
-//     case "yes":
-  
-//   }
-// }
 
 // alerts a list of people
 function displayPeople(people){
