@@ -75,25 +75,35 @@ function searchByName(people){
     return foundPerson[0];
   }
 }
+//////////////////////
+function searchByTrait (people) {
+  let gender = promptFor("What is the person's first name?", chars);
+  let height = promptFor("What is the person's last name?", chars);
+  let weight= promptFor("What is the person's last name?", chars);
+  let dateOfBirth= promptFor("What is the person's last name?", chars);
+  let eyecolor= promptFor("What is the person's last name?", chars);
 
-// function searchByTrait (people) {
-//   let filteredList;
 
-//   filteredList = searchByGender(people);
-//   filteredList = searchByDob(people);
-//   filteredList = 
+
+  let foundTrait = people.filter(function(person){
+    if(person.gender === gender || person.height === height || person.weight === weight || person.dob === dateOfBirth || person.eyecolor === eyecolor){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  if(!foundTrait){
+    alert("Could not find that trait.");
+    return app(people); // restart
+  }
+  else{ 
+    return foundTrait[0];
+  }
+}
+
 // }
-
-// function searchByGender(people) {
-//   let genderSearch = promptFor("Do you want to search by gender? Enter 'yes' or 'no'", yesNo).toLowerCase();
-  
-//   switch (genderSearch) {
-//     let locateGender = 
-//     case "yes":
-  
-//   }
-// }
-
+////////////////////////
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
@@ -101,23 +111,23 @@ function displayPeople(people){
   }).join("\n"));
 }
 
-function searchByTrait(people){
-let gender= promptFor("Do you know their gender?", chars);
-let height=promptFor("Do you know their height?", chars);
-let weight=promptFor("Do you know their weight?", chars);
-let Dob=promptFor("Do you know their date of birth?", chars);
-let eyecolor=promptFor("Do you know their eye color?", chars);
+// function searchByTrait(people){
+// let gender= promptFor("Do you know their gender?", chars);
+// let height=promptFor("Do you know their height?", chars);
+// let weight=promptFor("Do you know their weight?", chars);
+// let Dob=promptFor("Do you know their date of birth?", chars);
+// let eyecolor=promptFor("Do you know their eye color?", chars);
 
-let foundTrait = people.filter(function(person){
-  if(person.gender === gender && person.height === height && person.weight === weight && person.dob === Dob && person.eyeColor === eyecolor){
-    return true;
-  }
-  else{
-    return false
-  }
-}
+// let foundTrait = people.filter(function(person){
+//   if(person.gender === gender && person.height === height && person.weight === weight && person.dob === Dob && person.eyeColor === eyecolor){
+//     return true;
+//   }
+//   else{
+//     return false
+//   }
+// }
 
-}
+// }
 
 
 
