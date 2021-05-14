@@ -109,6 +109,8 @@ function displayPeople(people){
 }
 
 function displayPerson(person, people) {
+  let parent = retrieveParents(person, people);
+  let spouse = retrieveSpouse(person, people);
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
   personInfo += "Gender: " + person.gender + "\n";
@@ -117,9 +119,49 @@ function displayPerson(person, people) {
   personInfo += "Weight: " + person.weight + "\n";
   personInfo += "Eye Color: " + person.eyeColor + "\n";
   personInfo += "Occupation: " + person.occupation + "\n";
-  personInfo += "Parents: " + "\n";
-  personInfo += "Spouse: " + "\n";
+  personInfo += "Parents: " + parent + "\n";
+  personInfo += "Spouse: " + spouse + "\n";
   alert(personInfo);
+}
+
+function retrieveParents(person, people) {
+  let parents = [];
+  let parentsReturned = "";
+
+  if(person.parents.length === 0) {
+    return "No Parents";
+  }
+  else {
+    parents = people.filter(function(element) {
+      if(element.id === person.parents[0] || element.id === person.parents[1]){
+        return true;
+      }
+    });
+  }
+  for (let i = 0; i < parents.length; i++) {
+    parentsReturned += parents[i].firstName + " " + parents[i].lastName + ". ";
+  }
+  return parentsReturned;
+}
+
+function retrieveSpouse(person, people) {
+  let spouse;
+  let spouseArr = [];
+  let spouseReturned = "";
+
+  if(person.currentSpouse === null) {
+    return "No Spouse";
+  }
+  else {
+    spouseArr = people.filter(function(element) {
+      if(element.id === person.currentSpouse){
+        return true;
+      }
+    });
+  }
+  spouse = spouseArr.pop();
+  spouseReturned = spouse.firstName + " " + spouse.lastName;
+  return spouseReturned;
 }
 
 // function that prompts and validates user input
