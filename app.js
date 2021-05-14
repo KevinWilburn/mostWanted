@@ -12,7 +12,7 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
-      searchResults = searchByTrait(people);
+      // TODO: search by traits
       break;
       default:
     app(people); // restart app
@@ -68,25 +68,7 @@ function searchByName(people){
     }
   })
   // TODO: find the person using the name they entered
-  return foundPerson;
-}
-
-function searchByTrait(people){
-  let gender = promptFor("What is the person's gender?", chars);
-  let height = promptFor("What is the person's height?", chars);
-  let weight = promptFor("What is the person's weight?", chars);
-  let eyeColor = promptFor("What is the person's eye color?", chars);
-  let occupation = promptFor("What is the person's occupation?", chars);
-
-  let foundTrait = people.filter(function(person){
-    if(person.gender === gender || person.height === height || person.weight === weight || person.eyeColor === eyeColor || person.occupation === occupation){
-      return true;
-    }
-    else{
-      return false;
-    }
-  })
-  return foundTrait;
+  return foundPerson[0];
 }
 
 // alerts a list of people
@@ -95,6 +77,26 @@ function displayPeople(people){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
 }
+
+function searchByTrait(people){
+let gender= promptFor("Do you know their gender?", chars);
+let height=promptFor("Do you know their height?", chars);
+let weight=promptFor("Do you know their weight?", chars);
+let Dob=promptFor("Do you know their date of birth?", chars);
+let eyecolor=promptFor("Do you know their eye color?", chars);
+
+let foundTrait = people.filter(function(person){
+  if(person.gender === gender && person.height === height && person.weight === weight && person.dob === Dob && person.eyeColor === eyecolor){
+    return true;
+  }
+  else{
+    return false
+  }
+}
+
+}
+
+
 
 function displayPerson(person){
   // print all of the information about a person:
