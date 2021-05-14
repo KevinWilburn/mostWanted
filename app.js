@@ -67,9 +67,32 @@ function searchByName(people){
       return false;
     }
   })
-  // TODO: find the person using the name they entered
-  return foundPerson[0];
+  if(!foundPerson){
+    alert("Could not find that individual.");
+    return app(people); // restart
+  }
+  else{ 
+    return foundPerson[0];
+  }
 }
+
+// function searchByTrait (people) {
+//   let filteredList;
+
+//   filteredList = searchByGender(people);
+//   filteredList = searchByDob(people);
+//   filteredList = 
+// }
+
+// function searchByGender(people) {
+//   let genderSearch = promptFor("Do you want to search by gender? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  
+//   switch (genderSearch) {
+//     let locateGender = 
+//     case "yes":
+  
+//   }
+// }
 
 // alerts a list of people
 function displayPeople(people){
