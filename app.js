@@ -60,7 +60,7 @@ function searchByName(people){
   let lastName = promptFor("What is the person's last name?", chars);
 
   let foundPerson = people.filter(function(person){
-    if(person.firstName === firstName && person.lastName === lastName){
+    if(person.firstName.toLowerCase() === firstName && person.lastName.toLowerCase() === lastName){
       return true;
     }
     else{
@@ -127,10 +127,12 @@ function displayPerson(person, people) {
 function displayFamily (person, people) {
   let parent = retrieveParents(person, people);
   let spouse = retrieveSpouse(person, people);
+  let siblings = retrieveSiblings(person, people);
+  // let children = retrieveChildren(person, people);
   let personInfo = "Parents: " + parent + "\n";
   personInfo += "Spouse: " + spouse + "\n";
-  // personInfo += "Siblings: " + siblings + "\n"; 
-  // personInfo += "Children: " + children + "\n"; 
+  personInfo += "Siblings: " + siblings + "\n"; //need siblings function
+  // personInfo += "Children: " + children + "\n"; //need children function
   alert(personInfo);
 }
 
@@ -139,7 +141,7 @@ function retrieveParents(person, people) {
   let parentsReturned = "";
 
   if(person.parents.length === 0) {
-    return "No Parents";
+    return "No Parents Found";
   }
   else {
     parents = people.filter(function(element) {
@@ -173,6 +175,27 @@ function retrieveSpouse(person, people) {
   spouseReturned = spouse.firstName + " " + spouse.lastName;
   return spouseReturned;
 }
+
+function retrieveSiblings(person, people) {
+  let siblings = [];
+  let siblingsReturned = "";
+
+  if(person.parents.length === 0) {
+    return "No Siblings Found";
+  }
+  else {
+    siblings =people.filter(function(element) {
+      if (element.parents.length === 0 || element === person){
+        return false;
+    }
+    });
+  }
+  for (let i = 0; i < siblings.length; i++) {
+    siblingsReturned += siblings[i].firstName + " " + siblings[i].lastName + ". ";
+  }
+  return siblingsReturned;
+}
+
 
 // function that prompts and validates user input
 function promptFor(question, valid){
