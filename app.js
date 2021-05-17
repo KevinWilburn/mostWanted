@@ -40,7 +40,7 @@ function mainMenu(person, people){
       displayPerson(person, people);
     break;
     case "family":
-    // TODO: get person's family
+      displayFamily(person, people);
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -121,6 +121,16 @@ function displayPerson(person, people) {
   personInfo += "Occupation: " + person.occupation + "\n";
   personInfo += "Parents: " + parent + "\n";
   personInfo += "Spouse: " + spouse + "\n";
+  alert(personInfo);
+}
+
+function displayFamily (person, people) {
+  let parent = retrieveParents(person, people);
+  let spouse = retrieveSpouse(person, people);
+  let personInfo = "Parents: " + parent + "\n";
+  personInfo += "Spouse: " + spouse + "\n";
+  // personInfo += "Siblings: " + siblings + "\n"; 
+  // personInfo += "Children: " + children + "\n"; 
   alert(personInfo);
 }
 
