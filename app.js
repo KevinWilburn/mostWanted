@@ -60,7 +60,7 @@ function searchByName(people){
   let lastName = promptFor("What is the person's last name?", chars);
 
   let foundPerson = people.filter(function(person){
-    if(person.firstName.toLowerCase() === firstName && person.lastName.toLowerCase() === lastName){
+    if(person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()){
       return true;
     }
     else{
@@ -182,10 +182,13 @@ function retrieveSiblings(person, people) {
     return "No Siblings Found";
   }
   else {
-    siblings =people.filter(function(element) {
-      if (element.parents.length === 0 || element === person){
+    siblings = people.filter(function(element) {
+      if ((element.parents[0] || element.parents[1] === person.parents[0] || person.parents[1]) && element.parents.length === 0) {
+        return true;
+      }
+      else {
         return false;
-    }
+      }
     });
   }
   for (let i = 0; i < siblings.length; i++) {
