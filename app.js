@@ -81,7 +81,7 @@ function searchByName(people){
   let lastName = promptFor("What is the person's last name?", chars);
 
   let foundPerson = people.filter(function(person){
-    if(person.firstName === firstName && person.lastName === lastName){
+    if(person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()){
       return true;
     }
     else{
@@ -105,28 +105,145 @@ function searchByName(people){
 //   let eyecolor= promptFor("What is the person's last name?", chars);
 
 function searchByTrait(people){
-  let completedQuery = [];
-  let gender = promptFor("What is the person's gender?", chars);
-  // let dob = promptFor("What is the person's date of birth?", chars);
-  // let weight = promptFor("What is the person's weight?", chars);
-  // let height = promptFor("What is the person's height?", chars);
-  // let eyeColor = promptFor("What is the person's eye color?", chars);
+  let returnedTrait = "";
+  let filteredTraits;
 
-  let foundTrait = people.filter(function(person){
-    if(person.gender === gender){
+  filteredTraits = searchByDOB(people);
+  filteredTraits = searchByHeight(filteredTraits);
+  filteredTraits = searchByWeight(filteredTraits);
+  filteredTraits = searchByEyeColor(filteredTraits)
+  filteredTraits = searchByOccupation(filteredTraits);
+
+  if(filteredTraits.length === 0) {
+    alert("No results found.");
+  }
+  else {
+    for(let i = 0; i < filteredTraits.length; i++) {
+      returnedTrait += filteredTraits[i].firstName + " " + filteredTraits[i].lastName + ".";
+    }
+    alert(returnedTrait);
+  }
+  app(people);
+}
+
+function searchByDOB(people) {
+  let dobSearch = promptFor("Do you want to search by date of birth? Enter yes or no", yesNo).toLowerCase();
+  switch(dobSearch) {
+    case "yes":
+      let locateDOB = dobFilter(people);
+      return locateDOB;
+    case "no":
+      return people;
+    default:
+      searchByEyeColor(people);
+      break;
+  }
+}
+
+function dobFilter(people) {
+  let dob = promptFor("What is the person's date of birth?", chars);
+  let dobArr = people.filter(function(element) {
+    if(people.dob === dob) {
       return true;
     }
-    else{
-      return false;
+  });
+  return dobArr;
+}
+
+function searchByHeight(people) {
+  let heightSearch = promptFor("Do you want to search by height? Enter yes or no.", yesNo).toLowerCase();
+  switch(heightSearch) {
+    case "yes":
+      let locateHeight = heightFilter(people);
+      return locateHeight;
+    case "no":
+      return people;
+    default:
+      searchByHeight(people);
+      break;
+  }
+}
+
+function heightFilter(people) {
+  let height = promptFor("What is the person's height in inches?", chars);
+  let heightArr = people.filter(function(element) {
+    if(people.height === height) {
+      return true;
     }
-  })
-  if(!foundTrait){
-    alert("Could not find that individual.");
-    return app(people); // restart
+  });
+  return heightArr;
+}
+
+function searchByWeight(people) {
+  let weightSearch = promptFor("Do you want to search by weight? Enter yes or no", yesNo).toLowerCase();
+  switch(weightSearch) {
+    case "yes":
+      let locateWeight = weightFilter(people);
+      return locateWeight;
+    case "no":
+      return people;
+    default:
+      searchByWeight(people);
+    break;
   }
-  else{ 
-    return foundTrait;
+}
+
+function weightFilter(people) {
+  let weight = promptFor("What is the person's weight?", chars);
+  let weightArr = people.filter(function(element) {
+    if(people.weight === weight) {
+      return true;
+    }
+  });
+  return weightArr;
+}
+
+function searchByEyeColor(people) {
+  let eyeColorSearch = promptFor("Do you want to search by eye color? Enter yes or no", yesNo).toLowerCase();
+  switch(eyeColorSearch) {
+    case "yes":
+      let locateEyeColor = eyeColorFilter(people);
+      return locateEyeColor;
+    case "no":
+      return people;
+    default:
+      searchByEyeColor(people);
+    break;
   }
+}
+
+function eyeColorFilter(people) {
+  let eyeColor = promptFor("What is the person's eye color?", chars);
+  let eyeArr = people.filter(function(element) {
+    if(people.eyeColor === eyeColor) {
+      return true;
+    }
+  });
+  return eyeArr;
+}
+
+function searchByOccupation(people) {
+  let occupationSearch = promptFor("Do you want to search by occupation? Enter yes or no", yesNo).toLowerCase();
+  switch(occupationSearch) {
+    case "yes":
+      let locateOccupation = occupationFilter(people);
+      return locateOccupation;
+    case "no":
+      return people;
+    default:
+      searchByOccupation(people);
+      break;
+  }
+}
+
+function occupationFilter(people) {
+  let occupation = promptFor("What is the person's occupation?", chars);
+  let occArr = people.filter(function(element) {
+    if(occupation.height === occupation) {
+      return true;
+    }
+  });
+  return occArr;
 }
 
 // alerts a list of people
@@ -155,10 +272,10 @@ function displayPerson(person, people) {
 function displayFamily (person, people) {
   let parent = retrieveParents(person, people);
   let spouse = retrieveSpouse(person, people);
+  let siblings = retrieveSiblings(person, people);
   let personInfo = "Parents: " + parent + "\n";
   personInfo += "Spouse: " + spouse + "\n";
-  // personInfo += "Siblings: " + siblings + "\n"; 
-  // personInfo += "Children: " + children + "\n"; 
+  personInfo += "Siblings: " + siblings + "\n"; //need siblings function
   alert(personInfo);
 }
 
@@ -167,7 +284,7 @@ function retrieveParents(person, people) {
   let parentsReturned = "";
 
   if(person.parents.length === 0) {
-    return "No Parents";
+    return "No Parents Found";
   }
   else {
     parents = people.filter(function(element) {
@@ -201,6 +318,30 @@ function retrieveSpouse(person, people) {
   spouseReturned = spouse.firstName + " " + spouse.lastName;
   return spouseReturned;
 }
+
+function retrieveSiblings(person, people) {
+  let siblings = [];
+  let siblingsReturned = "";
+
+  if(person.parents.length === 0) {
+    return "No Siblings Found";
+  }
+  else {
+    siblings = people.filter(function(element) {
+      if ((element.parents[0] || element.parents[1] === person.parents[0] || person.parents[1]) && (person.id[0] || person.id[1] !== people.id[i])) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    });
+  }
+  for (let i = 0; i < siblings.length; i++) {
+    siblingsReturned += siblings[i].firstName + " " + siblings[i].lastName + ". ";
+  }
+  return siblingsReturned;
+}
+
 
 // function that prompts and validates user input
 function promptFor(question, valid){
