@@ -128,11 +128,9 @@ function displayFamily (person, people) {
   let parent = retrieveParents(person, people);
   let spouse = retrieveSpouse(person, people);
   let siblings = retrieveSiblings(person, people);
-  // let children = retrieveChildren(person, people);
   let personInfo = "Parents: " + parent + "\n";
   personInfo += "Spouse: " + spouse + "\n";
   personInfo += "Siblings: " + siblings + "\n"; //need siblings function
-  // personInfo += "Children: " + children + "\n"; //need children function
   alert(personInfo);
 }
 
