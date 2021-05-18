@@ -37,16 +37,16 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+      displayPerson(person, people);
     break;
     case "family":
-    // TODO: get person's family
+      displayFamily(person, people);
     break;
     case "descendants":
     // TODO: get person's descendants
     break;
     case "restart":
-    app(people); // restart
+    singleCriterion(people); // restart
     break;
     case "quit":
     return; // stop execution
@@ -55,6 +55,27 @@ function mainMenu(person, people){
   }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+function singleCriterion(people){
+  let criterionQuestion = prompt("What is the single criterion you want to search for?")
+  let criterion = people.filter(function(person){
+  switch(criterionQuestion){
+    case "female":
+      if(person.gender===criterionQuestion){
+        console.log(person)
+      }
+      break;
+    case "hazel":
+      if(person.eyeColor===criterionQuestion){
+        console.log(person)
+      }
+
+  }
+  })
+ return criterion;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
 function searchByName(people){
   let firstName = promptFor("What is the person's first name?", chars);
   let lastName = promptFor("What is the person's last name?", chars);
@@ -108,9 +129,6 @@ function searchByTrait(people){
   }
 }
 
-
-// }
-////////////////////////
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
@@ -118,35 +136,72 @@ function displayPeople(people){
   }).join("\n"));
 }
 
-// function searchByTrait(people){
-// let gender= promptFor("Do you know their gender?", chars);
-// let height=promptFor("Do you know their height?", chars);
-// let weight=promptFor("Do you know their weight?", chars);
-// let Dob=promptFor("Do you know their date of birth?", chars);
-// let eyecolor=promptFor("Do you know their eye color?", chars);
-
-// let foundTrait = people.filter(function(person){
-//   if(person.gender === gender && person.height === height && person.weight === weight && person.dob === Dob && person.eyeColor === eyecolor){
-//     return true;
-//   }
-//   else{
-//     return false
-//   }
-// }
-
-// }
-
-
-
-function displayPerson(person){
-  // print all of the information about a person:
-  // height, weight, age, name, occupation, eye color.
+function displayPerson(person, people) {
+  let parent = retrieveParents(person, people);
+  let spouse = retrieveSpouse(person, people);
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
-  // TODO: finish getting the rest of the information to display
+  personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "Date of Birth " + person.dob + "\n";
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Eye Color: " + person.eyeColor + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
+  personInfo += "Parents: " + parent + "\n";
+  personInfo += "Spouse: " + spouse + "\n";
   alert(personInfo);
 }
-//
+
+function displayFamily (person, people) {
+  let parent = retrieveParents(person, people);
+  let spouse = retrieveSpouse(person, people);
+  let personInfo = "Parents: " + parent + "\n";
+  personInfo += "Spouse: " + spouse + "\n";
+  // personInfo += "Siblings: " + siblings + "\n"; 
+  // personInfo += "Children: " + children + "\n"; 
+  alert(personInfo);
+}
+
+function retrieveParents(person, people) {
+  let parents = [];
+  let parentsReturned = "";
+
+  if(person.parents.length === 0) {
+    return "No Parents";
+  }
+  else {
+    parents = people.filter(function(element) {
+      if(element.id === person.parents[0] || element.id === person.parents[1]){
+        return true;
+      }
+    });
+  }
+  for (let i = 0; i < parents.length; i++) {
+    parentsReturned += parents[i].firstName + " " + parents[i].lastName + ". ";
+  }
+  return parentsReturned;
+}
+
+function retrieveSpouse(person, people) {
+  let spouse;
+  let spouseArr = [];
+  let spouseReturned = "";
+
+  if(person.currentSpouse === null) {
+    return "No Spouse";
+  }
+  else {
+    spouseArr = people.filter(function(element) {
+      if(element.id === person.currentSpouse){
+        return true;
+      }
+    });
+  }
+  spouse = spouseArr.pop();
+  spouseReturned = spouse.firstName + " " + spouse.lastName;
+  return spouseReturned;
+}
+
 // function that prompts and validates user input
 function promptFor(question, valid){
   do{
@@ -164,3 +219,6 @@ function yesNo(input){
 function chars(input){
   return true; // default validation only
 }
+
+
+
