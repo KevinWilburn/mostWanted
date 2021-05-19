@@ -12,7 +12,7 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
-      // TODO: search by traits
+      searchResults = searchByTrait(people);
       break;
       default:
     app(people); // restart app
@@ -43,10 +43,10 @@ function mainMenu(person, people){
       displayFamily(person, people);
     break;
     case "descendants":
-    // TODO: get person's descendants
+      findFamilyDescendants(people,person);
     break;
     case "restart":
-    singleCriterion(people); // restart
+    app(people); // restart
     break;
     case "quit":
     return; // stop execution
@@ -55,27 +55,6 @@ function mainMenu(person, people){
   }
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-function singleCriterion(people){
-  let criterionQuestion = prompt("What is the single criterion you want to search for?")
-  let criterion = people.filter(function(person){
-  switch(criterionQuestion){
-    case "female":
-      if(person.gender===criterionQuestion){
-        console.log(person)
-      }
-      break;
-    case "hazel":
-      if(person.eyeColor===criterionQuestion){
-        console.log(person)
-      }
-
-  }
-  })
- return criterion;
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////
 function searchByName(people){
   let firstName = promptFor("What is the person's first name?", chars);
   let lastName = promptFor("What is the person's last name?", chars);
@@ -96,13 +75,6 @@ function searchByName(people){
     return foundPerson[0];
   }
 }
-//////////////////////
-// function searchByTrait (people) {
-//   let gender = promptFor("What is the person's first name?", chars);
-//   let height = promptFor("What is the person's last name?", chars);
-//   let weight= promptFor("What is the person's last name?", chars);
-//   let dateOfBirth= promptFor("What is the person's last name?", chars);
-//   let eyecolor= promptFor("What is the person's last name?", chars);
 
 function searchByTrait(people){
   let returnedTrait = "";
@@ -363,7 +335,17 @@ function chars(input){
 
 
 
-function immediateFamilyMembers(people){
-  
-}
 
+function findFamilyDescendants(people, person){    //what do you call the function?
+  let tempArray = [];
+  for(let i = 0; i< people.length;i++){
+    if(people[i].parents.includes(person.id) ){
+      tempArray.push(people[i]);
+    }
+  }
+  for(let j = 0;j < tempArray.length;j++){
+    tempArray = tempArray.concat(findFamilyDescendants(people,tempArray[j]));
+  }
+
+  return tempArray;        //What will that function ultimately return? (Specifically, what data type?)
+}
