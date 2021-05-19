@@ -82,6 +82,7 @@ function searchByTrait(people){
   let returnedTrait = "";
   let filteredTraits;
 
+  filteredTraits = searchByGender(people);
   filteredTraits = searchByDOB(people);
   filteredTraits = searchByHeight(filteredTraits);
   filteredTraits = searchByWeight(filteredTraits);
@@ -99,6 +100,30 @@ function searchByTrait(people){
   }
   app(people);
 }
+function searchByGender(people) {
+  let genderSearch = promptFor("Do you want to search by gender? Enter yes or no", yesNo).toLowerCase();
+  switch(genderSearch) {
+    case "yes":
+      let locateGender = genderFilter(people);
+      return locateGender;
+    case "no":
+      return people;
+    default:
+      searchByGender(people);
+      break;
+  }
+}
+
+function genderFilter(people) {
+  let gender = promptFor("What is the person's gender?", chars);
+  let genderArr = people.filter(function(element) {
+    if(element.gender === gender) {
+      return true;
+    }
+  });
+  return genderArr;
+}
+
 
 function searchByDOB(people) {
   let dobSearch = promptFor("Do you want to search by date of birth? Enter yes or no", yesNo).toLowerCase();
@@ -123,6 +148,7 @@ function dobFilter(people) {
   });
   return dobArr;
 }
+
 
 function searchByHeight(people) {
   let heightSearch = promptFor("Do you want to search by height? Enter yes or no.", yesNo).toLowerCase();
