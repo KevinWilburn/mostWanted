@@ -41,6 +41,7 @@ function mainMenu(person, people){
     break;
     case "family":
       displayFamily(person, people);
+      //Display Parents, Spouse and Siblings
     break;
     case "descendants":
       findFamilyDescendants(people,person);
@@ -76,10 +77,12 @@ function searchByName(people){
   }
 }
 
+// //search by traits. Single or multiple. 
 function searchByTrait(people){
   let returnedTrait = "";
   let filteredTraits;
 
+  filteredTraits = searchByGender(people);
   filteredTraits = searchByDOB(people);
   filteredTraits = searchByHeight(filteredTraits);
   filteredTraits = searchByWeight(filteredTraits);
@@ -91,12 +94,36 @@ function searchByTrait(people){
   }
   else {
     for(let i = 0; i < filteredTraits.length; i++) {
-      returnedTrait += filteredTraits[i].firstName + " " + filteredTraits[i].lastName + ".";
+      returnedTrait += filteredTraits[i].firstName + " " + filteredTraits[i].lastName + ". " + "\n";
     }
     alert(returnedTrait);
   }
   app(people);
 }
+function searchByGender(people) {
+  let genderSearch = promptFor("Do you want to search by gender? Enter yes or no", yesNo).toLowerCase();
+  switch(genderSearch) {
+    case "yes":
+      let locateGender = genderFilter(people);
+      return locateGender;
+    case "no":
+      return people;
+    default:
+      searchByGender(people);
+      break;
+  }
+}
+
+function genderFilter(people) {
+  let gender = promptFor("What is the person's gender?", chars);
+  let genderArr = people.filter(function(element) {
+    if(element.gender === gender) {
+      return true;
+    }
+  });
+  return genderArr;
+}
+
 
 function searchByDOB(people) {
   let dobSearch = promptFor("Do you want to search by date of birth? Enter yes or no", yesNo).toLowerCase();
@@ -107,20 +134,21 @@ function searchByDOB(people) {
     case "no":
       return people;
     default:
-      searchByEyeColor(people);
+      searchByDOB(people);
       break;
   }
 }
 
 function dobFilter(people) {
-  let dob = promptFor("What is the person's date of birth?", chars);
+  let dob = promptFor("What is the person's date of birth? (example 6/12/1967)", chars);
   let dobArr = people.filter(function(element) {
-    if(people.dob === dob) {
+    if(element.dob === dob) {
       return true;
     }
   });
   return dobArr;
 }
+
 
 function searchByHeight(people) {
   let heightSearch = promptFor("Do you want to search by height? Enter yes or no.", yesNo).toLowerCase();
@@ -139,7 +167,7 @@ function searchByHeight(people) {
 function heightFilter(people) {
   let height = promptFor("What is the person's height in inches?", chars);
   let heightArr = people.filter(function(element) {
-    if(people.height === height) {
+    if(element.height === height) {
       return true;
     }
   });
@@ -163,7 +191,7 @@ function searchByWeight(people) {
 function weightFilter(people) {
   let weight = promptFor("What is the person's weight?", chars);
   let weightArr = people.filter(function(element) {
-    if(people.weight === weight) {
+    if(element.weight === weight) {
       return true;
     }
   });
@@ -187,7 +215,7 @@ function searchByEyeColor(people) {
 function eyeColorFilter(people) {
   let eyeColor = promptFor("What is the person's eye color?", chars);
   let eyeArr = people.filter(function(element) {
-    if(people.eyeColor === eyeColor) {
+    if(element.eyeColor === eyeColor) {
       return true;
     }
   });
@@ -211,7 +239,7 @@ function searchByOccupation(people) {
 function occupationFilter(people) {
   let occupation = promptFor("What is the person's occupation?", chars);
   let occArr = people.filter(function(element) {
-    if(occupation.height === occupation) {
+    if(element.occupation === occupation) {
       return true;
     }
   });
@@ -247,7 +275,7 @@ function displayFamily (person, people) {
   let siblings = retrieveSiblings(person, people);
   let personInfo = "Parents: " + parent + "\n";
   personInfo += "Spouse: " + spouse + "\n";
-  personInfo += "Siblings: " + siblings + "\n"; //need siblings function
+  personInfo += "Siblings: " + siblings + "\n"; // SIBLINGS FUNCTION DOES NOT RETURN ACCURATE VALUES
   alert(personInfo);
 }
 
@@ -300,7 +328,7 @@ function retrieveSiblings(person, people) {
   }
   else {
     siblings = people.filter(function(element) {
-      if ((element.parents[0] || element.parents[1] === person.parents[0] || person.parents[1]) && (person.id[0] || person.id[1] !== people.id[i])) {
+      if ((element.parents[0] || element.parents[1] === person.parents[0] || person.parents[1]) && (person.id[0] || person.id!== people.id)) {
         return true;
       }
       else {
